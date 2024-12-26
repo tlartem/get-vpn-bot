@@ -4,3 +4,4 @@ indent-style = "space"
 
 [tool.ruff]
 line-length = 88
+ignore = ["E712"]

@@ -1,12 +1,14 @@
 from aiogram import Bot
-from aiogram.types import BotCommand
+from aiogram.types import BotCommand, BotCommandScopeAllPrivateChats
 
-import config
+from src import config
 
 
 async def set_commands(bot: Bot):
+    await bot.delete_my_commands()
     await bot.set_my_commands(
-        [BotCommand(command='/start', description='Запустить бота')]
+        [BotCommand(command='/start', description='Запустить бота')],
+        scope=BotCommandScopeAllPrivateChats(),
     )
 
 
