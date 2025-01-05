@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Optional
+from typing import Dict, Optional
 
 from aiogram import types
 from aiolimiter import AsyncLimiter
@@ -72,12 +72,16 @@ async def create_sub(
         enable=True,
         flow='xtls-rprx-vision',
         limit_ip=2,
-        telegram_id=user.telegram_id,
-        subscription_id=sub_id,
+        telegram_id=str(user.telegram_id),
+        subscription_id=str(sub_id),
     )
 
     # Генерация ссылки
-    config = {'uuid': user_uuid, 'server_ip': server.server_ip, 'email': user_email}
+    config: Dict[str, str] = {
+        'uuid': user_uuid,
+        'server_ip': server.server_ip,
+        'email': user_email,
+    }
     link = config_generator(config, server.query_params)
 
     # Ответ пользователю

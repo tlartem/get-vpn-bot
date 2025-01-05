@@ -115,13 +115,22 @@ async def delete_subs(session: AsyncSession, telegram_id: int):
     # Удаляем все подписки
     for subscription in subscriptions:
         logging.debug(f'Удаляем подписку {subscription.sub_id}')
-        server: Server = await get_server_by_subscription(session, subscription.sub_id)
-        asyncio.sleep(2)
+        server: Server | None = await get_server_by_subscription(
+            session, subscription.sub_id
+        )
+
+        if not server:
+            continue
+
+        await asyncio.sleep(2)
+
         panel = XUI(full_address=server.host, panel='sanaei')
-        logging.debug(await panel.login(server.login, server.password))
+        await panel.login(server.login, server.password)
         await panel.delete_client(1, uuid=subscription.user_uuid)
+
         subscription.status = False
         subscription.end_date = datetime.now()
+
         server.server_available_load += user.load_weight
 
     await session.commit()

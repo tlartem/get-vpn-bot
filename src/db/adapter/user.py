@@ -28,22 +28,14 @@ async def delete_user(session: AsyncSession, telegram_id: int) -> None:
         await session.commit()
 
 
-async def user_set_weight(session: AsyncSession, user_id: int, weight: float) -> None:
+async def user_set_weight(
+    session: AsyncSession, user_id: int, weight: float
+) -> User | None:
     user: User | None = await session.get(User, user_id)
     if user:
         user.load_weight = weight
         await session.commit()
     return user
-
-
-# async def get_user_id_by_telegram_id(
-#     session: AsyncSession, telegram_id: int
-# ) -> Optional[int]:
-#     result = await session.execute(
-#         select(User.user_id).where(User.telegram_id == telegram_id)
-#     )
-#     user_id: Optional[int] = result.scalar_one_or_none()
-#     return user_id
 
 
 async def get_user_uuid_by_telegram_id(

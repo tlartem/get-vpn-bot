@@ -15,7 +15,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 from src import config
 
-_logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 # Инициализация движка
@@ -40,11 +40,11 @@ async def init_db() -> None:
     try:
         async with _engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        _logger.info('Database initialized successfully.')
+        log.info('Database initialized successfully.')
     except SQLAlchemyError as e:
-        _logger.error(f'An error occurred while initializing the database: {e}')
+        log.error(f'An error occurred while initializing the database: {e}')
     except Exception as e:
-        _logger.error(f'An unexpected error occurred: {e}')
+        log.error(f'An unexpected error occurred: {e}')
 
 
 class Base(DeclarativeBase):

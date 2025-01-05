@@ -66,7 +66,7 @@ async def get_vpn(message: types.Message, state: FSMContext) -> None:
 async def process_how_often_use(message: types.Message, state: FSMContext) -> None:
     frequency = message.text
 
-    if frequency not in VPN_USAGE_WEIGHTS.keys():
+    if frequency not in VPN_USAGE_WEIGHTS.keys() or not frequency:
         await message.answer(
             'Пожалуйста, выбери один из вариантов.', reply_markup=how_often_use_kb
         )
@@ -85,7 +85,7 @@ async def process_how_often_use(message: types.Message, state: FSMContext) -> No
 async def process_does_youtube_use(message: types.Message, state: FSMContext) -> None:
     youtube = message.text
 
-    if youtube not in YOUTUBE_USAGE_WEIGHT.keys():
+    if youtube not in YOUTUBE_USAGE_WEIGHT.keys() or not youtube:
         await message.answer(
             'Пожалуйста, выбери один из вариантов.',
             reply_markup=does_youtube_kb,
@@ -98,7 +98,7 @@ async def process_does_youtube_use(message: types.Message, state: FSMContext) ->
         user_weight += YOUTUBE_USAGE_WEIGHT[youtube]
 
         user: User = data['user']
-        user = await user_set_weight(session, user.user_id, user_weight)
+        await user_set_weight(session, user.user_id, user_weight)
 
         await create_sub(session, user, message)
 

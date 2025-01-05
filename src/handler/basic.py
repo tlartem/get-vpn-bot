@@ -1,7 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.filters import Command
 
-from src.config import ADMIN_TG_USERNAME
+from config import ADMIN_TG_USERNAME
 from src.db.adapter.user import add_user, get_user
 from src.db.postgres import get_session
 from src.keyboard import main_menu_kb
